@@ -26,15 +26,6 @@ export default {
     };
   },
 
-  computed: {
-    articleId() {
-      return this.store.articleId;
-    },
-    articleFiltered() {
-      return this.store.getArticle;
-    },
-  },
-
   async created() {
     this.loadArticle();
   },

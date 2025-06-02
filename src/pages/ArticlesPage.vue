@@ -20,9 +20,9 @@
       </template>
     </q-input>
     <div class="row">
-      <div v-if="loading">Carregando...</div>
+      <div v-if="store.loading">Carregando...</div>
 
-      <div v-if="!loading && store.currentArticles.length === 0">
+      <div v-if="!store.loading && store.currentArticles.length === 0">
         Ocorreu um erro ao carregar os artigos
       </div>
 
@@ -40,22 +40,22 @@
       </div>
     </div>
 
-    <div v-if="!loading" class="flex flex-center q-mt-xs">
+    <div v-if="!store.loading" class="flex flex-center q-mt-xs">
       <q-btn
         class="bg-black"
-        :disabled="currentPage === 1"
-        @click="goToPage(currentPage - 1)"
+        :disabled="store.currentPage === 1"
+        @click="goToPage(store.currentPage - 1)"
         color="primary"
         icon="arrow_back"
         label="Anterior"
       />
 
-      <span class="text-weight-bold text-h6 q-pa-md">Página {{ currentPage }}</span>
+      <span class="text-weight-bold text-h6 q-pa-md">Página {{ store.currentPage }}</span>
 
       <q-btn
         class="bg-black"
-        :disabled="!hasMorePages"
-        @click="goToPage(currentPage + 1)"
+        :disabled="!store.hasMorePages"
+        @click="goToPage(store.currentPage + 1)"
         color="primary"
         icon-right="arrow_forward"
         label="Próxima"
@@ -79,21 +79,6 @@ export default {
     return {
       store: useArticles(),
     };
-  },
-
-  computed: {
-    currentPage() {
-      return this.store.currentPage;
-    },
-    loading() {
-      return this.store.loading;
-    },
-    hasMorePages() {
-      return this.store.hasMorePages;
-    },
-    filteredArticles() {
-      return this.store.filteredArticles;
-    },
   },
 
   methods: {
