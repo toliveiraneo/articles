@@ -1,0 +1,111 @@
+<template>
+  <div class="q-pa-md">
+    <q-input bottom-slots v-model="store.searchTerm" label="Filtrar por título...">
+      <template v-slot:append>
+        <q-icon
+          v-if="store.searchTerm !== ''"
+          name="close"
+          @click="clearText"
+          class="cursor-pointer"
+        />
+      </template>
+
+      <template v-slot:after>
+        <q-btn round flat icon="search" @click="searchArticles" />
+      </template>
+    </q-input>
+    <div class="row">
+      <div v-if="loading">Carregando...</div>
+
+      <div v-if="!loading && store.currentArticles.length === 0">
+        Ocorreu um erro ao carregar os artigos
+      </div>
+
+      <ArticleCard
+        class="col-6"
+        v-for="article in store.filteredArticles?.length > 0
+          ? store.filteredArticles
+          : store.currentArticles"
+        :key="article.id"
+        :article="article"
+      />
+
+      <div v-if="store.searchTerm && store.currentArticles.length === 0">
+        Nenhum artigo encontrado.
+      </div>
+    </div>
+
+    <div v-if="!loading" class="flex flex-center q-mt-xs">
+      <q-btn
+        class="bg-black"
+        :disabled="currentPage === 1"
+        @click="goToPage(currentPage - 1)"
+        color="primary"
+        icon="arrow_back"
+        label="Anterior"
+      />
+
+      <span class="text-weight-bold text-h6 q-pa-md">Página {{ currentPage }}</span>
+
+      <q-btn
+        class="bg-black"
+        :disabled="!hasMorePages"
+        @click="goToPage(currentPage + 1)"
+        color="primary"
+        icon-right="arrow_forward"
+        label="Próxima"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import { useArticles } from '/src/stores/useArticles';
+import ArticleCard from 'src/components/ArticleCard.vue';
+
+export default {
+  name: 'ArticlesPage',
+
+  components: {
+    ArticleCard,
+  },
+
+  data() {
+    return {
+      store: useArticles(),
+    };
+  },
+
+  computed: {
+    currentPage() {
+      return this.store.currentPage;
+    },
+    loading() {
+      return this.store.loading;
+    },
+    hasMorePages() {
+      return this.store.hasMorePages;
+    },
+    filteredArticles() {
+      return this.store.filteredArticles;
+    },
+  },
+
+  methods: {
+    goToPage(page) {
+      this.store.loadPage(page);
+    },
+    searchArticles() {
+      this.store.findArticles();
+    },
+    clearText() {
+      this.store.searchTerm = '';
+      this.store.findArticles();
+    },
+  },
+
+  mounted() {
+    this.store.loadArticles();
+  },
+};
+</script>
