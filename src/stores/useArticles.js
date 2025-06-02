@@ -29,7 +29,6 @@ export const useArticles = defineStore('article', {
 
       try {
         const response = await getArticles();
-        console.log('Dados da página:', response);
 
         for (let i = 0; i < response.length; i += sizePage) {
           const paginaIndex = Math.floor(i / sizePage) + 1;
@@ -37,7 +36,6 @@ export const useArticles = defineStore('article', {
         }
 
         this.currentPage = 1;
-        console.log('Pages:', this.pages);
       } catch (erro) {
         console.error('Erro ao carregar página:', erro);
       } finally {
@@ -46,7 +44,6 @@ export const useArticles = defineStore('article', {
     },
 
     async loadPage(page = 1) {
-      //VERIFICAR AQUI E O FRONT DOS CARDS QUE ESTÁ QUEBRANDO NA IMAGEM AFF
       this.currentPage = page;
 
       const articlesActual =
@@ -96,8 +93,6 @@ export const useArticles = defineStore('article', {
       }
 
       this.loading = false;
-
-      console.log('Filtered Pages:', this.pagesFiltered);
 
       if (
         !this.pagesFiltered[this.currentPage + 1] ||

@@ -1,6 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-input bottom-slots v-model="store.searchTerm" label="Filtrar por título...">
+    <q-input
+      bottom-slots
+      v-model="store.searchTerm"
+      label="Filtrar por título..."
+      @keyup.enter="searchArticles"
+    >
       <template v-slot:append>
         <q-icon
           v-if="store.searchTerm !== ''"

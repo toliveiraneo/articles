@@ -36,7 +36,8 @@ export default {
       type: Object,
       required: true,
       validator(value) {
-        return 'title' in value && 'article' in value;
+        if (!value) return false;
+        return 'title' in value && 'summary' in value;
       },
     },
   },
@@ -51,7 +52,6 @@ export default {
 .my-card {
   width: 100%;
   height: auto;
-  // max-height: 60vh;
 }
 
 .q-card {
