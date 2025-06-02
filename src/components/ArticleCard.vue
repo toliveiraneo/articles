@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md col items-start q-gutter-md">
     <q-card class="my-card" flat bordered>
-      <q-card-section horizontal class="seaction-card">
+      <q-card-section horizontal class="section-card">
         <q-card-section class="col-4 flex flex-center">
           <q-img class="rounded-borders" :src="article.imageUrl" />
         </q-card-section>
@@ -51,11 +51,11 @@ export default {
 .my-card {
   width: 100%;
   height: auto;
-  max-height: 60vh;
+  // max-height: 60vh;
 }
 
 .q-card {
-  > .seaction-card {
+  > .section-card {
     height: 200px;
   }
 }
@@ -66,6 +66,8 @@ export default {
 }
 
 .q-img {
+  position: static;
+  height: auto;
   max-height: 15vh;
 }
 </style>
